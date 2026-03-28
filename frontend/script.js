@@ -23,10 +23,11 @@ document.addEventListener('DOMContentLoaded', () => {
         responseMessage.className = 'response-message hidden';
 
         try {
-            // Send POST request
-            const response = await fetch('http://localhost:5000/contact', {
+            // Send POST request securely via Formspree API (No local backend needed)
+            const response = await fetch('https://formspree.io/f/YOUR_FORM_ID', {
                 method: 'POST',
                 headers: {
+                    'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(formData)
@@ -35,8 +36,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await response.json();
 
             if (response.ok) {
-                // Success
-                responseMessage.textContent = data.message;
+                // Success (Formspree returns an 'ok' property)
+                responseMessage.textContent = 'Message sent successfully!';
                 responseMessage.className = 'response-message success';
                 contactForm.reset();
             } else {
